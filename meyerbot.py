@@ -44,6 +44,8 @@ class MeyerBot:
         but no tests in the test directory).
         """
         modified_files = [file for file in pull_req.get_files()]
+        if len(modified_files) < 3:
+            return False
 
         users_that_commented = [comment.user.login for comment in pull_req.get_issue_comments()]
         if self.username in users_that_commented:
