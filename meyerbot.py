@@ -2,7 +2,8 @@ from github import Github # Download https://github.com/jacquev6/PyGithub and ru
 import re
 
 # This class will comment on every pull request in a given repository
-# if the pull request lacks any tests and at least ten lines of code were changed.
+# if the pull request lacks any tests and at least ten lines of code and three
+# files were changed.
 class MeyerBot:
 
     number_of_latest_pull_requests_to_examine = 10
