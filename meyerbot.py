@@ -44,7 +44,8 @@ class MeyerBot:
         Checks if the pull request is shitty (at least ten lines of code changed
         but no tests in the test directory).
         """
-        modified_files = [file for file in pull_req.get_files()]
+        modified_files = [file for file in pull_req.get_files()
+                          if not re.search('\\.rb$', file.filename) is None]
         if len(modified_files) < 3:
             return False
 
