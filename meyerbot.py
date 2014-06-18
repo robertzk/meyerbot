@@ -36,10 +36,13 @@ class MeyerBot:
         """
         pull_reqs = self.get_pull_requests()
         for pull_req in pull_reqs:
-            if self.is_shitty_pull_request(pull_req):
-                pull_req.create_issue_comment("Tests?") 
+            if self.is_candidate_pull_request(pull_req):
+                if self.is_pull_request_without_asana_task(pull_req):
+                    pull_req.create_issue_comment("Asana task #?") 
+                if self.is_pull_request_without_tests(pull_req):
+                    pull_req.create_issue_comment("Tests?") 
 
-    def is_shitty_pull_request(self, pull_req):
+    def is_candidate_pull_request(self, pull_req):
         """
         Checks if the pull request is shitty (at least ten lines of code changed
         but no tests in the test directory).
@@ -57,6 +60,23 @@ class MeyerBot:
         lines_modified = sum([file.additions for file in modified_files])
         if lines_modified < 10:
             return False
+
+        return True
+
+
+    def is_pull_request_without_asana_task(self, pull_req):
+        """
+        Return true or false according as the pull request has an asana task
+        number (heuristically any 14-15 digit string).
+        """
+        return re.search('[0-9]{14,15}', pull_req.body) is None
+
+    def is_pull_request_without_tests(self, pull_req):
+        """
+        Return true or false according as the pull request has tests.
+        """
+        modified_files = [file for file in pull_req.get_files()
+                          if not re.search('\\.rb$', file.filename) is None]
 
         unit_test_files = [file for file in modified_files \
                            if not re.search('^test/', file.filename) is None]
