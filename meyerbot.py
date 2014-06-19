@@ -42,6 +42,7 @@ class MeyerBot:
                     pull_req.create_issue_comment("Asana task #?")
                 if self.is_pull_request_without_tests(pull_req):
                     pull_req.create_issue_comment("Tests?")
+                # only posts if tests function returns false    
                 elif self.is_pull_request_old(pull_req):
                     pull_req.create_issue_comment("This good to go?")
 
@@ -89,7 +90,7 @@ class MeyerBot:
     def is_pull_request_old(self, pull_req):
         """
         Return true or false according as the pull request is older than
-        6 days and has tests
+        6 days
         """
         return (datetime.datetime.today()-pull_req.created_at).days >= 6
  
