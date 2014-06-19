@@ -1,6 +1,6 @@
 from github import Github # Download https://github.com/jacquev6/PyGithub and run setup.py
 import re
-from datetime
+import datetime
 
 # This class will comment on every pull request in a given repository
 # if the pull request lacks any tests and at least ten lines of code and three
