@@ -1,5 +1,6 @@
 from github import Github # Download https://github.com/jacquev6/PyGithub and run setup.py
 import re
+from datetime
 
 # This class will comment on every pull request in a given repository
 # if the pull request lacks any tests and at least ten lines of code and three
@@ -38,9 +39,11 @@ class MeyerBot:
         for pull_req in pull_reqs:
             if self.is_candidate_pull_request(pull_req):
                 if self.is_pull_request_without_asana_task(pull_req):
-                    pull_req.create_issue_comment("Asana task #?") 
+                    pull_req.create_issue_comment("Asana task #?")
                 if self.is_pull_request_without_tests(pull_req):
-                    pull_req.create_issue_comment("Tests?") 
+                    pull_req.create_issue_comment("Tests?")
+                elif self.is_pull_request_old(pull_req):
+                    pull_req.create_issue_comment("This good to go?")
 
     def is_candidate_pull_request(self, pull_req):
         """
@@ -83,6 +86,16 @@ class MeyerBot:
 
         return len(unit_test_files) == 0
 
+    def is_pull_request_old(self, pull_req):
+        """
+        Return true or false according as the pull request is older than
+        7 days and has tests
+        """
+        if (datetime.datetime.today()-pr.created_at).days >= 6
+            return True
+        else:
+            return False
+
     def get_owner(self):
         """
         If an organization was provided, return the organization.
@@ -108,7 +121,7 @@ class MeyerBot:
         """
         if owner is None:
             owner = self.get_owner()
-    
+
         if self.repo is None:
             try:
                 self.repo = [repo for repo in owner.get_repos() if repo.name == self.repo_name][0]
@@ -125,5 +138,3 @@ class MeyerBot:
         if repo is None:
             repo = self.get_repo()
         return repo.get_pulls()[0:self.number_of_latest_pull_requests_to_examine]
-
-
