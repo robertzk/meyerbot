@@ -89,13 +89,10 @@ class MeyerBot:
     def is_pull_request_old(self, pull_req):
         """
         Return true or false according as the pull request is older than
-        7 days and has tests
+        6 days and has tests
         """
-        if (datetime.datetime.today()-pull_req.created_at).days >= 6:
-            return True
-        else:
-            return False
-
+        return (datetime.datetime.today()-pull_req.created_at).days >= 6
+ 
     def get_owner(self):
         """
         If an organization was provided, return the organization.
