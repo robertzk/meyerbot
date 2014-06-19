@@ -7,7 +7,7 @@ import datetime
 # files were changed.
 class MeyerBot:
 
-    number_of_latest_pull_requests_to_examine = 10
+    number_of_latest_pull_requests_to_examine = 1337
 
     username = None
     gh = None
