@@ -91,7 +91,7 @@ class MeyerBot:
         Return true or false according as the pull request is older than
         7 days and has tests
         """
-        if (datetime.datetime.today()-pr.created_at).days >= 6
+        if (datetime.datetime.today()-pull_req.created_at).days >= 6
             return True
         else:
             return False
