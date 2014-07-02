@@ -38,8 +38,8 @@ class MeyerBot:
         pull_reqs = self.get_pull_requests()
         for pull_req in pull_reqs:
             if self.is_candidate_pull_request(pull_req):
-                if self.is_pull_request_without_asana_task(pull_req):
-                    pull_req.create_issue_comment("Asana task #?")
+                #if self.is_pull_request_without_asana_task(pull_req):
+                #    pull_req.create_issue_comment("Asana task #?")
                 if self.is_pull_request_without_tests(pull_req):
                     pull_req.create_issue_comment("Tests?")
                 # only posts if tests function returns false    
