@@ -38,8 +38,8 @@ class MeyerBot:
         pull_reqs = self.get_pull_requests()
         for pull_req in pull_reqs:
             if self.is_candidate_pull_request(pull_req):
-                #if self.is_pull_request_without_asana_task(pull_req):
-                #    pull_req.create_issue_comment("Asana task #?")
+                if self.is_pull_request_without_pivotal_task(pull_req):
+                    pull_req.create_issue_comment("Pivotal task #?")
                 if self.is_pull_request_without_tests(pull_req):
                     pull_req.create_issue_comment("Tests?")
                 # only posts if tests function returns false    
@@ -68,12 +68,13 @@ class MeyerBot:
         return True
 
 
-    def is_pull_request_without_asana_task(self, pull_req):
+    def is_pull_request_without_pivotal_task(self, pull_req):
         """
-        Return true or false according as the pull request has an asana task
-        number (heuristically any 14-15 digit string).
+        Return true or false according as the pull request has an pivotal task
+        number (heuristically any 8+ digit string).
         """
-        return re.search('[0-9]{14,15}', pull_req.body) is None
+        return (re.search('[0-9]{8}', pull_req.body) is None) and \
+               (re.search('[0-9]{8}', pull_req.title) is None)
 
     def is_pull_request_without_tests(self, pull_req):
         """
