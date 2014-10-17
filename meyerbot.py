@@ -74,7 +74,9 @@ class MeyerBot:
         number (heuristically any 8+ digit string).
         """
         return (re.search('[0-9]{8}', pull_req.body) is None) and \
-               (re.search('[0-9]{8}', pull_req.title) is None)
+               (re.search('[0-9]{8}', pull_req.title) is None) and \
+               (re.search('pivotal', pull_req.body, re.IGNORECASE) is None) and \
+               (re.search('pivotal', pull_req.title, re.IGNORECASE) is None)
 
     def is_pull_request_without_tests(self, pull_req):
         """
