@@ -76,7 +76,17 @@ class MeyerBot:
         return (re.search('[0-9]{8}', pull_req.body) is None) and \
                (re.search('[0-9]{8}', pull_req.title) is None) and \
                (re.search('pivotal', pull_req.body, re.IGNORECASE) is None) and \
-               (re.search('pivotal', pull_req.title, re.IGNORECASE) is None)
+               (re.search('pivotal', pull_req.title, re.IGNORECASE) is None) and \
+               not any([self.is_commit_with_pivotal_task(commit) for commit in pull_req.get_commits()])
+
+    def is_commit_with_pivotal_task(self, commit):
+        """ 
+        Return true or false according as the commit has a pivotal task
+        number (heuristically any 8+ digit string).
+        """
+        message = commit._commit.value._message.value
+        return not ((re.search('pivotal', message, re.IGNORECASE) is None) and
+                   (re.search('[0-9]{8}', message) is None))
 
     def is_pull_request_without_tests(self, pull_req):
         """
