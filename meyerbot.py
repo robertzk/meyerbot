@@ -73,10 +73,10 @@ class MeyerBot:
         Return true or false according as the pull request has an pivotal task
         number (heuristically any 8+ digit string).
         """
-        return (re.search('[0-9]{8}', pull_req.body) is None) and \
-               (re.search('[0-9]{8}', pull_req.title) is None) and \
-               (re.search('pivotal', pull_req.body, re.IGNORECASE) is None) and \
-               (re.search('pivotal', pull_req.title, re.IGNORECASE) is None) and \
+        return (re.search('[0-9]{8}', pull_req.body) is None) or \
+               (re.search('[0-9]{8}', pull_req.title) is None) or \
+               (re.search('pivotal', pull_req.body, re.IGNORECASE) is None) or \
+               (re.search('pivotal', pull_req.title, re.IGNORECASE) is None) or \
                not any([self.is_commit_with_pivotal_task(commit) for commit in pull_req.get_commits()])
 
     def is_commit_with_pivotal_task(self, commit):
