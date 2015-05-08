@@ -96,7 +96,7 @@ class MeyerBot:
                           if not re.search('\\.rb$', file.filename) is None]
 
         unit_test_files = [file for file in modified_files \
-                           if not ( re.search('^test/', file.filename) | re.search('^spec/', file.filename) ) is None]
+                           if not ( re.search('^[^/]*test/', file.filename) | re.search('^spec/', file.filename) ) is None]
 
         return len(unit_test_files) == 0
 
