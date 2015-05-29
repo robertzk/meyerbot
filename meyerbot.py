@@ -42,7 +42,7 @@ class MeyerBot:
                     pull_req.create_issue_comment("Pivotal task #?")
                 if self.is_pull_request_without_tests(pull_req):
                     pull_req.create_issue_comment("Tests?")
-                # only posts if tests function returns false    
+                # only posts if tests function returns false
                 elif self.is_pull_request_old(pull_req):
                     pull_req.create_issue_comment("This good to go?")
 
@@ -73,14 +73,14 @@ class MeyerBot:
         Return true or false according as the pull request has an pivotal task
         number (heuristically any 8+ digit string).
         """
-        return (re.search('[0-9]{8}', pull_req.body) is None) or \
-               (re.search('[0-9]{8}', pull_req.title) is None) or \
-               (re.search('pivotal', pull_req.body, re.IGNORECASE) is None) or \
-               (re.search('pivotal', pull_req.title, re.IGNORECASE) is None) or \
+        return (re.search('[0-9]{8}', pull_req.body) is None) and \
+               (re.search('[0-9]{8}', pull_req.title) is None) and \
+               (re.search('pivotal', pull_req.body, re.IGNORECASE) is None) and \
+               (re.search('pivotal', pull_req.title, re.IGNORECASE) is None) and \
                not any([self.is_commit_with_pivotal_task(commit) for commit in pull_req.get_commits()])
 
     def is_commit_with_pivotal_task(self, commit):
-        """ 
+        """
         Return true or false according as the commit has a pivotal task
         number (heuristically any 8+ digit string).
         """
@@ -106,7 +106,7 @@ class MeyerBot:
         6 days
         """
         return (datetime.datetime.today()-pull_req.created_at).days >= 6
- 
+
     def get_owner(self):
         """
         If an organization was provided, return the organization.
